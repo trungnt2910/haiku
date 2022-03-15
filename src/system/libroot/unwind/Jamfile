@@ -1,0 +1,24 @@
+SubDir HAIKU_TOP src system libroot unwind ;
+
+UseHeaders [ FDirName $(SUBDIR) include ] : true ;
+UseHeaders [ FDirName $(HAIKU_TOP) headers compatibility ] : true ;
+
+local architectureObject ;
+for architectureObject in [ MultiArchSubDirSetup ] {
+	on $(architectureObject) {
+		local architecture = $(TARGET_PACKAGING_ARCH) ;
+
+		UsePrivateSystemHeaders ;
+
+		MergeObject <$(architecture)>unwind_main.o :
+			libgcc.c
+			libunwind.cpp
+			UnwindLevel1.c
+			UnwindLevel1-gcc-ext.c
+			Unwind-EHABI.cpp
+			UnwindRegistersSave.S
+			UnwindRegistersRestore.S
+			;
+
+	}
+}
