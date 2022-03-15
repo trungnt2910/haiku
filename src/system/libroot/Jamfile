@@ -27,6 +27,8 @@ for architectureObject in [ MultiArchSubDirSetup ] {
 
 			os_main.o
 			os_arch_$(TARGET_ARCH).o
+			unwind_main.o
+			compilerrt_main.o
 
 			posix_arch_$(TARGET_ARCH).o
 			posix_crypt.o
@@ -84,7 +86,6 @@ for architectureObject in [ MultiArchSubDirSetup ] {
 			$(librootObjects)
 			$(librootNoDebugObjects)
 			[ TargetStaticLibsupc++ ]
-			[ TargetLibgcc ]
 			;
 
 		# Use the standard libroot.so soname, so when the debug version is
@@ -131,3 +132,5 @@ SubInclude HAIKU_TOP src system libroot add-ons ;
 SubInclude HAIKU_TOP src system libroot os ;
 SubInclude HAIKU_TOP src system libroot posix ;
 SubInclude HAIKU_TOP src system libroot stubbed ;
+SubInclude HAIKU_TOP src system libroot unwind ;
+SubInclude HAIKU_TOP src system libroot compiler-rt ;

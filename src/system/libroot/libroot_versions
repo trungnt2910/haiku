@@ -12,3 +12,180 @@ LIBROOT_1_ALPHA5 {
 
 LIBROOT_1_BETA3 {
 } LIBROOT_1_ALPHA5;
+
+GCC_3.0 {
+  _Unwind_DeleteException;
+  _Unwind_Find_FDE;
+  _Unwind_ForcedUnwind;
+  _Unwind_GetGR;
+  _Unwind_GetIP;
+  _Unwind_GetLanguageSpecificData;
+  _Unwind_GetRegionStart;
+  _Unwind_GetTextRelBase;
+  _Unwind_GetDataRelBase;
+  _Unwind_RaiseException;
+  _Unwind_Resume;
+  _Unwind_SetGR;
+  _Unwind_SetIP;
+  __deregister_frame;
+  __deregister_frame_info;
+  __deregister_frame_info_bases;
+  __register_frame;
+  __register_frame_info;
+  __register_frame_info_bases;
+  __register_frame_info_table;
+  __register_frame_info_table_bases;
+  __register_frame_table;
+
+  _Unwind_SjLj_Register;
+  _Unwind_SjLj_Unregister;
+  _Unwind_SjLj_RaiseException;
+  _Unwind_SjLj_ForcedUnwind;
+  _Unwind_SjLj_Resume;
+  
+ 	__absvdi2;
+	__absvsi2;
+	__addtf3;
+	__addvdi3;
+	__addvsi3;
+	__ashlti3;
+	__ashrti3;
+	__clear_cache;
+	__cmpti2;
+	__divtf3;
+	__divti3;
+	__eqtf2;
+	__extenddftf2;
+	__extendsftf2;
+	__ffsdi2;
+	__ffsti2;
+	__fixdfti;
+	__fixsfti;
+	__fixtfdi;
+	__fixtfsi;
+	__fixtfti;
+	__fixunsdfdi;
+	__fixunsdfti;
+	__fixunssfdi;
+	__fixunssfti;
+	__fixunstfdi;
+	__fixunstfsi;
+	__fixunstfti;
+	__fixunsxfdi;
+	__fixunsxfti;
+	__fixxfti;
+	__floatditf;
+	__floatsitf;
+	__floattidf;
+	__floattisf;
+	__floattitf;
+	__floattixf;
+	__getf2;
+	__gttf2;
+	__letf2;
+	__lshrti3;
+	__lttf2;
+	__modti3;
+	__multf3;
+	__multi3;
+	__mulvdi3;
+	__mulvsi3;
+	__negtf2;
+	__negti2;
+	__negvdi2;
+	__negvsi2;
+	__netf2;
+	__subtf3;
+	__subvdi3;
+	__subvsi3;
+	__trunctfdf2;
+	__trunctfsf2;
+	__ucmpti2;
+	__udivmodti4;
+	__udivti3;
+	__umodti3;
+};
+
+GCC_3.3 {
+  _Unwind_FindEnclosingFunction;
+  _Unwind_GetCFA;
+  _Unwind_Backtrace;
+  _Unwind_Resume_or_Rethrow;
+  _Unwind_SjLj_Resume_or_Rethrow;
+} GCC_3.0;
+
+GCC_3.3.1 {
+  __gcc_personality_sj0;
+  __gcc_personality_v0;
+} GCC_3.3;
+
+GCC_3.4 {
+	__clzdi2;
+	__clzti2;
+	__ctzdi2;
+	__ctzti2;
+	__paritydi2;
+	__parityti2;
+	__popcountdi2;
+	__popcountti2;
+} GCC_3.3.1;
+
+GCC_3.4.2 {
+	__enable_execute_stack;
+} GCC_3.4;
+
+GCC_3.4.4 {
+	__absvti2;
+	__addvti3;
+	__mulvti3;
+	__negvti2;
+	__subvti3;
+} GCC_3.4.2;
+
+GCC_4.0.0 {
+	__divdc3;
+	__divsc3;
+	__divtc3;
+	__divxc3;
+	__muldc3;
+	__mulsc3;
+	__multc3;
+	__mulxc3;
+	__powidf2;
+	__powisf2;
+	__powitf2;
+	__powixf2;
+} GCC_3.4.4;
+
+GCC_4.2.0 {
+	_Unwind_GetIPInfo;
+
+	__floatunditf;
+	__floatunsitf;
+	__floatuntidf;
+	__floatuntisf;
+	__floatuntitf;
+	__floatuntixf;
+} GCC_4.0.0;
+
+GCC_4.3.0 {
+	__bswapdi2;
+	__bswapsi2;
+	__emutls_get_address;
+	__emutls_register_common;
+	__extendxftf2;
+	__trunctfxf2;
+} GCC_4.2.0;
+
+GCC_4.5.0 {
+	__unordtf2;
+} GCC_4.3.0;
+
+GCC_4.7.0 {
+	__clrsbdi2;
+	__clrsbti2;
+} GCC_4.5.0;
+
+GCC_7.0.0 {
+	__divmodti4;
+} GCC_4.7.0;

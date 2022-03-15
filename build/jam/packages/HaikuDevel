@@ -61,6 +61,7 @@ AddHeaderDirectoryToPackage libs alm ;
 AddHeaderDirectoryToPackage libs glut GL ;
 AddHeaderDirectoryToPackage os ;
 AddHeaderDirectoryToPackage posix ;
+AddHeaderDirectoryToPackage unwind ;
 
 # private headers
 AddHeaderDirectoryToPackage private ;
