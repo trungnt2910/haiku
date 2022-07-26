@@ -38,21 +38,6 @@ duplocale(locale_t l)
     LocaleBackend* backend = (l == LC_GLOBAL_LOCALE) ?
         gGlobalLocaleBackend : (LocaleBackend*)locObj->backend;
 
-    if (backend == NULL) {
-        newObj->backend = NULL;
-        return (locale_t)newObj;
-    }
-
-    // Check if everything is set to "C" or "POSIX",
-    // and avoid making a backend.
-    const char* localeDescription = backend->SetLocale(LC_ALL, NULL);
-
-    if ((strcasecmp(localeDescription, "POSIX") == 0)
-        || (strcasecmp(localeDescription, "C") == 0)) {
-        newObj->backend = NULL;
-        return (locale_t)newObj;
-    }
-
     BPrivate::ErrnoMaintainer errnoMaintainer;
 
     LocaleBackend*& newBackend = newObj->backend;
@@ -90,12 +75,9 @@ extern "C" void
 freelocale(locale_t l)
 {
     LocaleBackendData* locobj = (LocaleBackendData*)l;
-
-    if (locobj->backend) {
-        LocaleBackend::DestroyBackend(locobj->backend);
-        LocaleDataBridge* databridge = locobj->databridge;
-        delete databridge;
-    }
+	LocaleBackend::DestroyBackend(locobj->backend);
+	LocaleDataBridge* databridge = locobj->databridge;
+	delete databridge;
     delete locobj;
 }
 
@@ -153,48 +135,40 @@ newlocale(int category_mask, const char* locale, locale_t base)
 	}
 
 	if (backend == NULL) {
-		// for any locale other than POSIX/C, we try to activate the ICU
-		// backend
-		bool needBackend = false;
-		for (int lc = 0; lc <= LC_LAST; lc++) {
-			if (locales[lc] != NULL && strcasecmp(locales[lc], "POSIX") != 0
-					&& strcasecmp(locales[lc], "C") != 0) {
-				needBackend = true;
-				break;
+		// Earlier implementations check for the C locale and avoid creating the backend.
+		// However, this may not work, as the C locale is not always available in the
+		// global locale when uselocale() is called.
+		// Furthermore, we cannot fail when uselocale() is called for valid locale_t objects
+		// according to the POSIX spec.
+		// Therefore, we always create the backend.
+		backend = LocaleBackend::CreateBackend();
+		if (backend == NULL) {
+			errno = ENOMEM;
+			if (newObject) {
+				delete localeObject;
 			}
+			return (locale_t)0;
 		}
-		if (needBackend) {
-			backend = LocaleBackend::CreateBackend();
-			if (backend == NULL) {
-				errno = ENOMEM;
-				if (newObject) {
-					delete localeObject;
-				}
-				return (locale_t)0;
+		databridge = new (std::nothrow) LocaleDataBridge(false);
+		if (databridge == NULL) {
+			errno = ENOMEM;
+			delete backend;
+			if (newObject) {
+				delete localeObject;
 			}
-			databridge = new (std::nothrow) LocaleDataBridge(false);
-			if (databridge == NULL) {
-				errno = ENOMEM;
-				delete backend;
-				if (newObject) {
-					delete localeObject;
-				}
-				return (locale_t)0;
-			}
-			backend->Initialize(databridge);
+			return (locale_t)0;
 		}
+		backend->Initialize(databridge);
 	}
 
 	BPrivate::ErrnoMaintainer errnoMaintainer;
 
-	if (backend != NULL) {
-		for (int lc = 0; lc <= LC_LAST; lc++) {
-			if (locales[lc] != NULL) {
-				locale = backend->SetLocale(lc, locales[lc]);
-				if (lc == LC_ALL) {
-					// skip the rest, LC_ALL overrides
-					break;
-				}
+	for (int lc = 0; lc <= LC_LAST; lc++) {
+		if (locales[lc] != NULL) {
+			locale = backend->SetLocale(lc, locales[lc]);
+			if (lc == LC_ALL) {
+				// skip the rest, LC_ALL overrides
+				break;
 			}
 		}
 	}
